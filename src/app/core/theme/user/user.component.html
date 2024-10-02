@@ -88,6 +88,16 @@
 					<span translate>Theme.Translates</span>
 				</a>
 				<hr *ngIf="us.role('admin')" />
+				<a
+					[routerLinkActiveOptions]="{ exact: true }"
+					routerLinkActive="_activeLink"
+					routerLink="/articles"
+					class="nav__burger-link"
+					(click)="hideSidebar()"
+				>
+					<span class="material-icons">article</span>
+					<span translate>Theme.Articles</span>
+				</a>
 			</div>
 		</div>
 		<router-outlet></router-outlet>

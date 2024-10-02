@@ -37,8 +37,11 @@ const routes: Routes = [
 						title: 'Components'
 					}
 				},
-				loadChildren: () => import('./pages/guest/components/components.module').then(m => m.ComponentsModule)
-			}, 
+				loadChildren: () =>
+					import('./pages/guest/components/components.module').then(
+						(m) => m.ComponentsModule
+					)
+			},
 			{
 				path: 'sign',
 				canActivate: [MetaGuard],
@@ -72,6 +75,19 @@ const routes: Routes = [
 					import('./pages/user/profile/profile.module').then(
 						(m) => m.ProfileModule
 					)
+			},
+			{
+				path: 'articles',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Articles'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/article/pages/articles/articles.module'
+					).then((m) => m.ArticlesModule)
 			}
 		]
 	},
@@ -103,9 +119,9 @@ const routes: Routes = [
 					}
 				},
 				loadChildren: () =>
-					import('./modules/customform/pages/customforms/customforms.module').then(
-						(m) => m.CustomformsModule
-					)
+					import(
+						'./modules/customform/pages/customforms/customforms.module'
+					).then((m) => m.CustomformsModule)
 			},
 			{
 				path: 'translates',
