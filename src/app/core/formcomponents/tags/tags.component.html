@@ -1,0 +1,17 @@
+<ng-template #templateRef let-data>
+	<div>
+		<winput
+			[placeholder]="data.field.Placeholder"
+			(wSubmit)="addTag(data)"
+			[label]="data.field.Label"
+			#inputRef
+		></winput>
+		<ng-container *ngFor="let tag of data.tags; index as i">
+			<span>{{tag}}</span>
+			<i (click)="data.tags.splice(i, 1)">X</i>
+		</ng-container>
+		<wbutton [disabled]="!inputRef.value" (click)="addTag(data)">
+			{{data.field.Button || 'Add'}}
+		</wbutton>
+	</div>
+</ng-template>

@@ -1,0 +1,12 @@
+<ng-template #templateRef let-data>
+	<winput
+		[value]="data.submition[data.component.key]"
+		(wChange)="data.submition[data.component.key] = $event"
+		[type]="data.field.Textarea ? 'textarea' : 'text'"
+		[placeholder]="data.field.Placeholder"
+		[name]="data.field.Label || 'name'"
+		[focused]="data.component.focused"
+		[ngClass]="data.component.class"
+		[label]="data.field.Label"
+	></winput>
+</ng-template>
