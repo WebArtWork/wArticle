@@ -101,6 +101,19 @@ const routes: Routes = [
 					import(
 						'./modules/articletag/pages/tags/tags.module'
 					).then((m) => m.TagsModule)
+			},
+			{
+				path: 'comments',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Comments'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/articlecomment/pages/comments/comments.module'
+					).then((m) => m.CommentsModule)
 			}
 		]
 	},
