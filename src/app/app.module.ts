@@ -88,6 +88,19 @@ const routes: Routes = [
 					import(
 						'./modules/article/pages/articles/articles.module'
 					).then((m) => m.ArticlesModule)
+			},
+			{
+				path: 'tags',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Tags'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/articletag/pages/tags/tags.module'
+					).then((m) => m.TagsModule)
 			}
 		]
 	},

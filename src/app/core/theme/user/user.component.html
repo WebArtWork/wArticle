@@ -98,6 +98,16 @@
 					<span class="material-icons">article</span>
 					<span translate>Theme.Articles</span>
 				</a>
+				<a
+					[routerLinkActiveOptions]="{ exact: true }"
+					routerLinkActive="_activeLink"
+					routerLink="/tags"
+					class="nav__burger-link"
+					(click)="hideSidebar()"
+				>
+					<span class="material-icons">tag</span>
+					<span translate>Theme.Tags</span>
+				</a>
 			</div>
 		</div>
 		<router-outlet></router-outlet>
