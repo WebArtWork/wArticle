@@ -11,6 +11,7 @@ import {
 export interface Articlecomment extends CrudDocument {
   name: string;
   description: string;
+  article: string;
 }
 
 @Injectable({

@@ -71,7 +71,7 @@ export class ArticlesComponent {
 			}
 		]
 	});
-
+	
 	config = {
 		create: () => {
 			this._form.modal<Article>(this.form, {
@@ -114,6 +114,10 @@ export class ArticlesComponent {
 				click: (doc: Article) => {
 					this._form.modalUnique<Article>('articles', 'url', doc);
 				}
+			},
+			{
+				icon: 'comment',
+				ahrefFunc: (doc: Article) => '/comments/' + doc._id
 			}
 		]
 	};

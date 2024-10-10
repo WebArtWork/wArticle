@@ -4,6 +4,7 @@ import { ArticlecommentService, Articlecomment } from "../../services/articlecom
 import { FormService } from "src/app/core/modules/form/form.service";
 import { TranslateService } from "src/app/core/modules/translate/translate.service";
 import { FormInterface } from "src/app/core/modules/form/interfaces/form.interface";
+import { Router } from "@angular/router";
 
 @Component({
   templateUrl: "./comments.component.html",
@@ -11,6 +12,8 @@ import { FormInterface } from "src/app/core/modules/form/interfaces/form.interfa
 })
 export class CommentsComponent {
   columns = ["name", "description"];
+
+  articleId = this._router.url.includes('/comments/') ? this._router.url.replace('/comments/', '') : '';
 
   form: FormInterface = this._form.getForm("comments", {
     formId: "comments",
@@ -53,6 +56,9 @@ export class CommentsComponent {
       this._form.modal<Articlecomment>(this.form, {
         label: "Create",
         click: (created: unknown, close: () => void) => {
+          if (this.articleId) {
+            (created as Articlecomment).article = this.articleId;
+          }
           this._sa.create(created as Articlecomment);
           close();
         },
@@ -103,6 +109,7 @@ export class CommentsComponent {
     private _alert: AlertService,
     private _sa: ArticlecommentService,
     private _form: FormService,
-    private _core: CoreService
+    private _core: CoreService,
+    private _router: Router
   ) {}
 }
