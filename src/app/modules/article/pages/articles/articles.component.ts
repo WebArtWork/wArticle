@@ -4,6 +4,8 @@ import { ArticleService, Article } from '../../services/article.service';
 import { AlertService, CoreService } from 'wacom';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
+import { TagsComponent } from 'src/app/core/formcomponents/tags/tags.component';
+import { ArticletagService } from 'src/app/modules/articletag/services/articletag.service';
 
 @Component({
 	templateUrl: './articles.component.html',
@@ -42,6 +44,28 @@ export class ArticlesComponent {
 					{
 						name: 'Label',
 						value: 'Description'
+					}
+				]
+			},
+			{
+				name: 'Select',
+				key: 'tags',
+				fields: [
+					{
+						name: 'Items',
+						value: this._ats.articletags
+					},
+					{
+						name: 'Placeholder',
+						value: 'Select tags'
+					},
+					{
+						name: 'Label',
+						value: 'Tags'
+					},
+					{
+						name: 'Multiple',
+						value: true
 					}
 				]
 			}
@@ -102,6 +126,7 @@ export class ArticlesComponent {
 		private _translate: TranslateService,
 		private _alert: AlertService,
 		private _sa: ArticleService,
+		private _ats: ArticletagService,
 		private _form: FormService,
 		private _core: CoreService
 	) {}
