@@ -91,6 +91,10 @@ export class TagsComponent {
 					this._form.modalUnique<Articletag>("tags", "url", doc);
 				},
 			},
+			{
+				icon: 'article',
+				ahrefFunc: (doc: Articletag) => '/articles/' + doc._id
+			},
 		],
 	};
 

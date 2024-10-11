@@ -6,6 +6,7 @@ import { TranslateService } from 'src/app/core/modules/translate/translate.servi
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { TagsComponent } from 'src/app/core/formcomponents/tags/tags.component';
 import { ArticletagService } from 'src/app/modules/articletag/services/articletag.service';
+import { Router } from "@angular/router";
 
 @Component({
 	templateUrl: './articles.component.html',
@@ -13,6 +14,8 @@ import { ArticletagService } from 'src/app/modules/articletag/services/articleta
 })
 export class ArticlesComponent {
 	columns = ['name', 'description'];
+
+	tagId = this._router.url.includes('/articles/') ? this._router.url.replace('/articles/', '') : '';
 
 	form: FormInterface = this._form.getForm('articles', {
 		formId: 'articles',
@@ -77,6 +80,9 @@ export class ArticlesComponent {
 			this._form.modal<Article>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
+					if (this.tagId) {
+						(created as Article).articletag = this.tagId;
+					}
 					this._sa.create(created as Article);
 					close();
 				}
@@ -123,7 +129,9 @@ export class ArticlesComponent {
 	};
 
 	get rows(): Article[] {
-		return this._sa.articles;
+		return this.tagId
+		?this._sa.articlesByTagId[this.tagId] || []
+		:this._sa.articles;
 	}
 
 	constructor(
@@ -132,6 +140,7 @@ export class ArticlesComponent {
 		private _sa: ArticleService,
 		private _ats: ArticletagService,
 		private _form: FormService,
-		private _core: CoreService
+		private _core: CoreService,
+		private _router: Router
 	) {}
 }

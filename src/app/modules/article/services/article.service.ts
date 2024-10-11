@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { HelperService } from "src/app/core/services/helper.service";
 import {
 	AlertService,
 	CoreService,
@@ -11,13 +12,20 @@ import {
 export interface Article extends CrudDocument {
 	name: string;
 	description: string;
+	articletag: string;
 }
 
 @Injectable({
 	providedIn: 'root'
 })
 export class ArticleService extends CrudService<Article> {
+	_helper = inject(HelperService)
+
 	articles: Article[] = [];
+
+	articlesByTagId: Record<string, Article[]> = {}
+	setarticlesByTagId = this._helper.createParentIdToChildrenIds<Article[]>(this.articlesByTagId, this.articles, 'articletag')
+
 	constructor(
 		_http: HttpService,
 		_store: StoreService,
@@ -33,17 +41,26 @@ export class ArticleService extends CrudService<Article> {
 			_alert,
 			_core
 		);
-		this.get().subscribe((articles: Article[]) =>
+
+		this.get().subscribe((articles: Article[]) => {
 			this.articles.push(...articles)
-		);
+
+			this.setarticlesByTagId()
+		});
+
 		_core.on('article_create').subscribe((article: Article) => {
 			this.articles.push(article);
+
+			this.setarticlesByTagId()
 		});
+
 		_core.on('article_delete').subscribe((article: Article) => {
 			this.articles.splice(
 				this.articles.findIndex((o) => o._id === article._id),
 				1
 			);
+
+			this.setarticlesByTagId()
 		});
 	}
 }
