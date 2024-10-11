@@ -1,4 +1,5 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
+import { HelperService } from "src/app/core/services/helper.service";
 import {
   AlertService,
   CoreService,
@@ -18,7 +19,13 @@ export interface Articlecomment extends CrudDocument {
   providedIn: "root",
 })
 export class ArticlecommentService extends CrudService<Articlecomment> {
+  _helper = inject(HelperService)
+
   articlecomments: Articlecomment[] = [];
+
+  commentsByArticleId: Record<string, Articlecomment[]> = {}
+  setCommentsByArticleId = this._helper.createParentIdToChildrenIds<Articlecomment[]>(this.commentsByArticleId, this.articlecomments, 'article')
+
   constructor(
     _http: HttpService,
     _store: StoreService,
@@ -35,10 +42,16 @@ export class ArticlecommentService extends CrudService<Articlecomment> {
       _core
     );
 
-    this.get().subscribe((articlecomments: Articlecomment[]) => this.articlecomments.push(...articlecomments));
+    this.get().subscribe((articlecomments: Articlecomment[]) => {
+      this.articlecomments.push(...articlecomments)
+    
+      this.setCommentsByArticleId()
+    });
 
     _core.on("articlecomment_create").subscribe((articlecomment: Articlecomment) => {
       this.articlecomments.push(articlecomment);
+
+      this.setCommentsByArticleId()
     });
 
     _core.on("articlecomment_delete").subscribe((articlecomment: Articlecomment) => {
@@ -46,6 +59,8 @@ export class ArticlecommentService extends CrudService<Articlecomment> {
         this.articlecomments.findIndex((o) => o._id === articlecomment._id),
         1
       );
+
+      this.setCommentsByArticleId()
     });
   }
 }

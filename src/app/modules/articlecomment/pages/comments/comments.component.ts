@@ -101,7 +101,9 @@ export class CommentsComponent {
   };
 
   get rows(): Articlecomment[] {
-    return this._sa.articlecomments;
+    return this.articleId
+    ?this._sa.commentsByArticleId[this.articleId] || []
+    :this._sa.articlecomments;
   }
 
   constructor(
