@@ -72,13 +72,13 @@
 
 <!-- Checkboxes -->
 <ng-container *ngIf="type === 'checkbox'">
-	<label class="container-box" [for]="name">
+	<label class="container-box">
 		<input
-			(ngModelChange)="onChange(value)"
+			(ngModelChange)="value=$event;onChange(value)"
 			class="w-input__checkbox"
 			[disabled]="disabled"
 			[class.error]="error"
-			[(ngModel)]="value"
+			[ngModel]="value"
 			[ngClass]="wClass"
 			type="checkbox"
 			[name]="name"
