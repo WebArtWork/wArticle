@@ -126,11 +126,15 @@ export class ArticlesComponent {
 	};
 
 	get rows(): Article[] {
-		return this.tagId
-		?this._sa.articlesByTagId[this.tagId] || []
-		:this._sa.articles;
+		if (!this.tagId) {
+		  return this._sa.articles;
+		}
+	  
+		return Object.values(this._sa.articlesByTagId)
+		  .flat()
+		  .filter(article => article.articletag.includes(this.tagId));
 	}
-
+	
 	constructor(
 		private _translate: TranslateService,
 		private _alert: AlertService,
