@@ -52,7 +52,7 @@ export class ArticlesComponent {
 			},
 			{
 				name: 'Select',
-				key: 'tags',
+				key: 'articletag',
 				fields: [
 					{
 						name: 'Items',
@@ -80,9 +80,6 @@ export class ArticlesComponent {
 			this._form.modal<Article>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
-					if (this.tagId) {
-						(created as Article).articletag = this.tagId;
-					}
 					this._sa.create(created as Article);
 					close();
 				}
