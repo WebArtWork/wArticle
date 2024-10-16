@@ -14,7 +14,7 @@ export interface Article extends CrudDocument {
 	description: string;
 	shortDescription: string;
 	published: Date;
-	articletag: string;
+	tags: string;
 }
 
 @Injectable({
@@ -26,7 +26,7 @@ export class ArticleService extends CrudService<Article> {
 	articles: Article[] = [];
 
 	articlesByTagId: Record<string, Article[]> = {}
-	setarticlesByTagId = this._helper.createParentIdToChildrenIds<Article[]>(this.articlesByTagId, this.articles, 'articletag')
+	setarticlesByTagId = this._helper.createParentIdToChildrenIds<Article[]>(this.articlesByTagId, this.articles, 'tags')
 
 	constructor(
 		_http: HttpService,

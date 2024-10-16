@@ -13,7 +13,7 @@ import { Router } from "@angular/router";
 	styleUrls: ['./articles.component.scss']
 })
 export class ArticlesComponent {
-	columns = ['title', 'description', 'shortDescription', 'published'];
+	columns = ['title', 'description', 'shortDescription', 'published', 'tags'];
 
 	tagId = this._router.url.includes('/articles/') ? this._router.url.replace('/articles/', '') : '';
 
@@ -76,7 +76,7 @@ export class ArticlesComponent {
 			},
 			{
 				name: 'Select',
-				key: 'articletag',
+				key: 'tags',
 				fields: [
 					{
 						name: 'Items',
@@ -154,9 +154,7 @@ export class ArticlesComponent {
 		  return this._sa.articles;
 		}
 	  
-		return Object.values(this._sa.articlesByTagId)
-		  .flat()
-		  .filter(article => article.articletag.includes(this.tagId));
+		return this._sa.articlesByTagId[this.tagId];
 	}
 	
 	constructor(
@@ -166,6 +164,8 @@ export class ArticlesComponent {
 		private _ats: ArticletagService,
 		private _form: FormService,
 		private _core: CoreService,
-		private _router: Router
+		private _router: Router,
+
+		public ats: ArticletagService,
 	) {}
 }

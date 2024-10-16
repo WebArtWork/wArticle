@@ -1,6 +1,14 @@
+{{tagId}}
 <wtable
 	title="Articles"
 	[columns]="columns"
 	[config]="config"
 	[rows]="rows"
-></wtable>
+>
+	<ng-template cell="tags" let-element>
+		<ng-container *ngFor="let tag of element.tags; index as i">
+			<span *ngIf="i">, </span>
+			<span>{{ats.doc(tag).name}}</span>
+		</ng-container>
+	</ng-template>
+</wtable>
