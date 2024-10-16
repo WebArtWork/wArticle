@@ -13,7 +13,7 @@ import { Router } from "@angular/router";
 	styleUrls: ['./articles.component.scss']
 })
 export class ArticlesComponent {
-	columns = ['name', 'description'];
+	columns = ['title', 'description', 'shortDescription', 'published'];
 
 	tagId = this._router.url.includes('/articles/') ? this._router.url.replace('/articles/', '') : '';
 
@@ -23,7 +23,7 @@ export class ArticlesComponent {
 		components: [
 			{
 				name: 'Text',
-				key: 'name',
+				key: 'title',
 				focused: true,
 				fields: [
 					{
@@ -47,6 +47,30 @@ export class ArticlesComponent {
 					{
 						name: 'Label',
 						value: 'Description'
+					}
+				]
+			},
+			{
+				name: 'Text',
+				key: 'shortDescription',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill articles short description'
+					},
+					{
+						name: 'Label',
+						value: 'Short Description'
+					}
+				]
+			},
+			{
+				name: 'Date',
+				key: 'published',
+				fields: [
+					{
+						name: 'Label',
+						value: 'Date'
 					}
 				]
 			},

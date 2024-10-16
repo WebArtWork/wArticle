@@ -10,8 +10,7 @@ import {
 } from "wacom";
 
 export interface Articlecomment extends CrudDocument {
-  name: string;
-  description: string;
+  content: string;
   article: string;
 }
 

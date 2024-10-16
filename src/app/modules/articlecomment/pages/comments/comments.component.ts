@@ -11,7 +11,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./comments.component.scss"],
 })
 export class CommentsComponent {
-  columns = ["name", "description"];
+  columns = ["content"];
 
   articleId = this._router.url.includes('/comments/') ? this._router.url.replace('/comments/', '') : '';
 
@@ -21,30 +21,16 @@ export class CommentsComponent {
     components: [
       {
         name: "Text",
-        key: "name",
+        key: "content",
         focused: true,
         fields: [
           {
             name: "Placeholder",
-            value: "fill comments title",
+            value: "fill comments content",
           },
           {
             name: "Label",
-            value: "Title",
-          },
-        ],
-      },
-      {
-        name: "Text",
-        key: "description",
-        fields: [
-          {
-            name: "Placeholder",
-            value: "fill comments description",
-          },
-          {
-            name: "Label",
-            value: "Description",
+            value: "Content",
           },
         ],
       },
