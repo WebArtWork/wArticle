@@ -93,7 +93,7 @@ export class TagsComponent {
 			},
 			{
 				icon: 'article',
-				ahrefFunc: (doc: Articletag) => '/articles/' + doc._id
+				hrefFunc: (doc: Articletag) => '/articles/' + doc._id
 			},
 		],
 	};

@@ -144,7 +144,7 @@ export class ArticlesComponent {
 			},
 			{
 				icon: 'comment',
-				ahrefFunc: (doc: Article) => '/comments/' + doc._id
+				hrefFunc: (doc: Article) => '/comments/' + doc._id
 			}
 		]
 	};
