@@ -30,9 +30,7 @@ import { NgxTinymceModule } from 'ngx-tinymce';
 		FileModule,
 		SelectModule,
 		FormsModule,
-		NgxTinymceModule.forRoot({
-			baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/'
-		})
+		NgxTinymceModule
 	],
 	declarations: [
 		/* declarations */

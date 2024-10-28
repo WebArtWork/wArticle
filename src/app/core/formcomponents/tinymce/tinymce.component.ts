@@ -13,7 +13,7 @@ export class TinyMCEComponent implements OnInit {
   htmlContent = '';
 
   editorOptions = {
-    inline: true,
+    inline: false,
     menubar: false,
     toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright',
     plugins: 'link image',
