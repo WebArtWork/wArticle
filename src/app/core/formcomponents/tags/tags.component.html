@@ -2,7 +2,7 @@
 	<div>
 		<winput
 			[placeholder]="data.field.Placeholder"
-			(wSubmit)="addTag(data)"
+			(wSubmit)="addTag(data, inputRef)"
 			[label]="data.field.Label"
 			#inputRef
 		></winput>
@@ -10,7 +10,7 @@
 			<span>{{tag}}</span>
 			<i (click)="data.tags.splice(i, 1)">X</i>
 		</ng-container>
-		<wbutton [disabled]="!inputRef.value" (click)="addTag(data)">
+		<wbutton [disabled]="!inputRef.value" (click)="addTag(data, inputRef)">
 			{{data.field.Button || 'Add'}}
 		</wbutton>
 	</div>

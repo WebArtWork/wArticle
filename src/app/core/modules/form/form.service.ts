@@ -72,12 +72,11 @@ export class FormService {
 		return this.customTemplateFields[name] || {};
 	}
 	injectComponent<T>(
+		name: string,
 		component: Type<T>,
 		fields = ['Placeholder', 'Label'],
 		customFields: Record<string, string> = {}
 	): void {
-		const name = component.name.replace('_', '').replace('Component', '');
-
 		if (!this._injectedComponent[name]) {
 			this._injectedComponent[name] = true;
 

@@ -18,15 +18,22 @@ export class TagsComponent implements AfterViewInit, OnInit {
 	ngOnInit(): void {
 		this._form.addTemplateComponent<Interface>('Tags', this.templateRef);
 	}
-	@ViewChild('inputRef', { static: false }) inputRef: any;
+	// @ViewChild('inputRef', { static: false }) inputRef: any;
 
 	// tags: string[] = [];
-	addTag(data: any) {
-		data.tags.push(this.inputRef.formControl.value.replace('\n', ''));
-		this.inputRef.formControl.setValue('');
+	addTag(data: any, inputRef:any) {
+		data.submition[data.key] = data.submition[data.key] || [];
+	  
+		data.submition[data.key].push(
+		  inputRef.value.replace('\n', '')
+		);
+	  
+		inputRef.value = '';
+	  
 		this.update();
+	  
 		setTimeout(() => {
-			this.inputRef.inputEl.nativeElement.focus();
+		  inputRef.focus();
 		}, 100);
 	}
 
