@@ -16,6 +16,7 @@ import { GuestGuard } from './core/guards/guest.guard';
 import { AdminsGuard } from './core/guards/admins.guard';
 import { AlertModule } from './core/modules/alert/alert.module';
 import { ModalModule } from './core/modules/modal/modal.module';
+import { NgxTinymceModule } from 'ngx-tinymce';
 
 const routes: Routes = [
 	{
@@ -203,6 +204,9 @@ const routes: Routes = [
 		RouterModule.forRoot(routes, {
 			scrollPositionRestoration: 'enabled',
 			preloadingStrategy: PreloadAllModules
+		}),
+		NgxTinymceModule.forRoot({
+			baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/'
 		})
 	],
 	providers: [AuthenticatedGuard, GuestGuard, AdminsGuard],

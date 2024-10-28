@@ -37,7 +37,7 @@ export class ArticlesComponent {
 				]
 			},
 			{
-				name: 'Text',
+				name: 'TinyMCE',
 				key: 'description',
 				fields: [
 					{
