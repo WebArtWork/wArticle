@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { HttpService } from 'wacom';
-import { ModalService } from '../modal/modal.service';
+import { HttpService, ModalService } from 'wacom';
 import { FileService } from './file.service';
 import { FileCropperComponent } from './file-cropper/file-cropper.component';
 
@@ -101,7 +100,7 @@ export class FileComponent implements OnInit {
 		private _modal: ModalService,
 		private _http: HttpService,
 		private _fs: FileService
-	) { }
+	) {}
 
 	ngOnInit(): void {
 		if (!this.name && !this.multiple && this.value) {

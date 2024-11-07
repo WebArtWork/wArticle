@@ -2,15 +2,17 @@
 	<div>
 		<winput
 			[placeholder]="data.field.Placeholder"
-			(wSubmit)="addTag(data, inputRef)"
 			[label]="data.field.Label"
+			(wSubmit)="addTag(data)"
 			#inputRef
 		></winput>
-		<ng-container *ngFor="let tag of data.tags; index as i">
+
+		<ng-container *ngFor="let tag of data.submition[data.key]; index as i">
 			<span>{{tag}}</span>
-			<i (click)="data.tags.splice(i, 1)">X</i>
+			<i (click)="data.submition[data.key].splice(i, 1)">X</i>
 		</ng-container>
-		<wbutton [disabled]="!inputRef.value" (click)="addTag(data, inputRef)">
+
+		<wbutton [disabled]="!inputRef.value" (click)="addTag(data)">
 			{{data.field.Button || 'Add'}}
 		</wbutton>
 	</div>

@@ -1,8 +1,8 @@
 <ng-template #templateRef let-data>
 	<wselect
-		[select]="data.submition[data.component.key]"
+		[select]="data.submition[data.key]"
 		(modelChange)="
-			data.submition[data.component.key] = $event;
+			data.submition[data.key] = $event;
 			data.wChange()
 		"
 		[multiple]="data.field.Multiple || false"

@@ -10,8 +10,8 @@
 			[class.table-search--active]="searchShow"
 		>
 			<input
-				(ngModelChange)="searching()"
 				(keyup.enter)="search(); searchShow = false"
+				(ngModelChange)="searching()"
 				[(ngModel)]="searching_text"
 				class="table-search__input"
 				placeholder="Search..."
@@ -292,28 +292,32 @@
 					[disabled]="config.page === 1"
 					(click)="config.page = 1"
 				>
-					<i class="chevron"></i>
+					<span class="material-icons"
+						>keyboard_double_arrow_left</span
+					>
 				</wbutton>
 				<wbutton
 					class="table-footer__arrow _left"
 					[disabled]="config.page === 1"
 					(click)="previous()"
 				>
-					<i class="chevron"></i>
+					<span class="material-icons">chevron_left</span>
 				</wbutton>
 				<wbutton
 					[disabled]="config.page * config.perPage > rows?.length"
 					class="table-footer__arrow _right"
 					(click)="next()"
 				>
-					<i class="chevron"></i>
+					<span class="material-icons">chevron_right</span>
 				</wbutton>
 				<wbutton
 					class="table-footer__arrow _end"
 					[disabled]="isLast()"
 					(click)="lastPage()"
 				>
-					<i class="chevron"></i>
+					<span class="material-icons"
+						>keyboard_double_arrow_right</span
+					>
 				</wbutton>
 			</div>
 			<div class="table-footer__pagination" *ngIf="!config.allDocs">
@@ -322,14 +326,14 @@
 					[disabled]="config.page === 1"
 					(click)="previous()"
 				>
-					<i class="chevron"></i>
+					<span class="material-icons">chevron_left</span>
 				</wbutton>
 				<wbutton
 					[disabled]="rows.length !== config.perPage"
 					class="table-footer__arrow _right"
 					(click)="next()"
 				>
-					<i class="chevron"></i>
+					<span class="material-icons">chevron_right</span>
 				</wbutton>
 			</div>
 		</tfoot>

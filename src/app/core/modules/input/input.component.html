@@ -1,22 +1,22 @@
 <!-- General Input -->
 <label
-	class="w-forms"
 	*ngIf="type !== 'radio' && type !== 'checkbox' && type !== 'textarea'"
+	class="w-forms"
 	[for]="name"
 >
 	<span class="w-forms__title" *ngIf="label">{{ label }}</span>
 	<input
-		[type]="type || 'text'"
 		[placeholder]="placeholder || 'Enter text...'"
+		(ngModelChange)="value = $event; onChange()"
 		(keyup.enter)="onSubmit()"
-		[(ngModel)]="value"
-		(ngModelChange)="onChange(value)"
+		[type]="type || 'text'"
+		class="w-forms__input"
 		(blur)="wBlur.emit()"
 		[class.error]="error"
+		[disabled]="disabled"
+		[ngModel]="value"
 		[ngClass]="wClass"
 		[name]="name"
-		class="w-forms__input"
-		[disabled]="disabled"
 		#inputEl
 	/>
 	<!-- Error Message Display -->
@@ -31,16 +31,16 @@
 	<label class="w-forms" [for]="name">
 		<span class="w-forms__title">{{ label }}</span>
 		<textarea
-			(keyup.enter)="onSubmit()"
-			[(ngModel)]="value"
-			(ngModelChange)="onChange(value)"
-			(blur)="wBlur.emit()"
+			(ngModelChange)="value = $event; onChange()"
 			[placeholder]="placeholder"
+			(keyup.enter)="onSubmit()"
 			class="w-forms__textarea"
+			(blur)="wBlur.emit()"
+			[disabled]="disabled"
 			[class.error]="error"
+			[ngModel]="value"
 			[ngClass]="wClass"
 			[name]="name"
-			[disabled]="disabled"
 			#inputEl
 		></textarea>
 		<!-- Error Message Display -->
@@ -55,14 +55,14 @@
 	<label class="check-label" *ngFor="let item of items">
 		<span class="form-label">{{ item }}</span>
 		<input
-			[(ngModel)]="value"
-			(ngModelChange)="onChange(value)"
-			[ngClass]="wClass"
+			(ngModelChange)="value = $event; onChange()"
+			[disabled]="disabled"
 			[class.error]="error"
+			[ngModel]="value"
+			[ngClass]="wClass"
+			[value]="item"
 			[name]="name"
 			type="radio"
-			[value]="item"
-			[disabled]="disabled"
 			#inputEl
 		/>
 		<span class="checkbox _radio"></span>
@@ -74,7 +74,7 @@
 <ng-container *ngIf="type === 'checkbox'">
 	<label class="container-box">
 		<input
-			(ngModelChange)="value=$event;onChange(value)"
+			(ngModelChange)="value = $event; onChange()"
 			class="w-input__checkbox"
 			[disabled]="disabled"
 			[class.error]="error"

@@ -6,7 +6,9 @@ import {
 	ViewChild,
 	Output,
 	EventEmitter,
-	OnInit
+	OnInit,
+	OnChanges,
+	SimpleChanges
 } from '@angular/core';
 
 /**
@@ -19,9 +21,7 @@ import {
 	templateUrl: './select.component.html',
 	styleUrls: ['./select.component.scss']
 })
-export class SelectComponent implements OnInit {
-	@Output() update: EventEmitter<any> = new EventEmitter<any>();
-
+export class SelectComponent implements OnInit, OnChanges {
 	/** Placeholder text for the select input. */
 	@Input() placeholder = '';
 
@@ -37,12 +37,14 @@ export class SelectComponent implements OnInit {
 	@Input() clearable = false;
 
 	/** Clears the selected values. */
-	clear() {
+	clear(): void {
 		if (this.multiple) {
 			this._values = [];
+
 			this.modelChange.emit(this._values);
 		} else {
 			this._selected = '';
+
 			this.modelChange.emit('');
 		}
 	}
@@ -109,6 +111,12 @@ export class SelectComponent implements OnInit {
 			this._selected = this._items[this.select]
 				? this._items[this.select][this.name]
 				: this.select;
+		}
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (changes['select'] && !changes['select'].firstChange) {
+			this.ngOnInit();
 		}
 	}
 

@@ -5,8 +5,11 @@ import {
 	EventEmitter,
 	OnInit,
 	ElementRef,
-	ViewChild
+	ViewChild,
+	OnChanges,
+	SimpleChanges
 } from '@angular/core';
+import { CoreService } from 'wacom';
 
 /**
  * InputComponent is a customizable input component that supports various types of inputs,
@@ -18,7 +21,7 @@ import {
 	templateUrl: './input.component.html',
 	styleUrls: ['./input.component.scss']
 })
-export class InputComponent implements OnInit {
+export class InputComponent implements OnInit, OnChanges {
 	/**
 	 * The value of the input field.
 	 */
@@ -125,6 +128,37 @@ export class InputComponent implements OnInit {
 	@ViewChild('inputEl') inputEl: ElementRef;
 
 	/**
+	 * Error state of the input field, set to true if validation fails.
+	 */
+	error = false;
+
+	constructor(private _core: CoreService) {}
+
+	/**
+	 * Initializes the component. Focuses the input field if the focused input is true.
+	 */
+	ngOnInit(): void {
+		if (this.focused) {
+			this.focus();
+		}
+
+		if (this.setFocus) {
+			this.setFocus.focus = this.focus.bind(this);
+		}
+	}
+
+	/**
+	 * Detect changes.
+	 */
+	ngOnChanges(changes: SimpleChanges): void {
+		console.log(changes);
+
+		if (changes['disabled']) {
+			this.disabled = changes['disabled'].currentValue;
+		}
+	}
+
+	/**
 	 * Focuses the input field.
 	 */
 	focus(): void {
@@ -137,17 +171,20 @@ export class InputComponent implements OnInit {
 	 * Handles the change event for the input field.
 	 * Applies the replace function if provided, and emits the new value.
 	 */
-	onChange(value: string | number | boolean): void {
-		this.value =
-			typeof this.replace === 'function' ? this.replace(value) : value;
+	onChange(): void {
+		this._core.afterWhile(
+			'winput',
+			(): void => {
+				this.value =
+					typeof this.replace === 'function'
+						? this.replace(this.value)
+						: this.value;
 
-		this.wChange.emit(this.value);
+				this.wChange.emit(this.value);
+			},
+			100
+		);
 	}
-
-	/**
-	 * Error state of the input field, set to true if validation fails.
-	 */
-	error = false;
 
 	/**
 	 * Handles the submit event for the input field.
@@ -158,19 +195,6 @@ export class InputComponent implements OnInit {
 			this.wSubmit.emit(this.value);
 		} else {
 			this.error = true;
-		}
-	}
-
-	/**
-	 * Initializes the component. Focuses the input field if the focused input is true.
-	 */
-	ngOnInit(): void {
-		if (this.focused) {
-			this.focus();
-		}
-
-		if (this.setFocus) {
-			this.setFocus.focus = this.focus.bind(this);
 		}
 	}
 
