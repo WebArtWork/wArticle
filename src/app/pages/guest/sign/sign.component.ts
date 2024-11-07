@@ -193,7 +193,7 @@ export class SignComponent {
 
 			this.us.setUser(user);
 
-			this.us.load();
+			this.us.get();
 
 			this._router.navigateByUrl('/profile');
 		} else {
