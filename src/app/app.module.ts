@@ -17,6 +17,7 @@ import { AdminsGuard } from './core/guards/admins.guard';
 import { AlertModule } from './core/modules/alert/alert.module';
 import { ModalModule } from './core/modules/modal/modal.module';
 import { NgxTinymceModule } from 'ngx-tinymce';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 const routes: Routes = [
 	{
@@ -209,7 +210,15 @@ const routes: Routes = [
 			baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/'
 		})
 	],
-	providers: [AuthenticatedGuard, GuestGuard, AdminsGuard],
+	providers: [
+		AuthenticatedGuard,
+		GuestGuard,
+		AdminsGuard,
+		{
+			provide: LocationStrategy,
+			useClass: HashLocationStrategy
+		}
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {}
