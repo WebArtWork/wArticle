@@ -54,6 +54,10 @@ export class FormComponentComponent implements OnInit {
 
 	field: Record<string, unknown> = {};
 
+	localKey: string;
+
+	localSubmition: Record<string, unknown>;
+
 	constructor(private _form: FormService) {}
 
 	ngOnInit(): void {
@@ -62,5 +66,73 @@ export class FormComponentComponent implements OnInit {
 				this.field[field.name] = field.value;
 			}
 		}
+
+		this.localSubmition = this.submition;
+
+		const keys = (this.component.key || '')?.split('.');
+
+		while (keys.length > 1) {
+			let key = keys.shift() as string;
+
+			if (key.endsWith('[]')) {
+				key = key.replace('[]', '');
+
+				const index = this._getIndex();
+
+				this.localSubmition[key] = (this.localSubmition[key] ||
+					[]) as Record<string, unknown>[];
+
+				while (
+					index + 1 >
+					(this.localSubmition[key] as Record<string, unknown>[])
+						.length
+				) {
+					(
+						this.localSubmition[key] as Record<string, unknown>[]
+					).push({});
+				}
+
+				this.localSubmition = (
+					this.localSubmition[key] as Record<string, unknown>[]
+				)[index];
+			} else {
+				this.localSubmition = this.localSubmition[
+					this.localKey
+				] as Record<string, unknown>;
+			}
+		}
+
+		this.localKey = keys[0];
+	}
+
+	private _getIndex(components = this.config.components): number {
+		for (const component of components) {
+			if (component.components) {
+				const localIndex = this._getIndex(component.components);
+
+				if (localIndex >= 0) {
+					for (let i = 0; i < component.components.length; i++) {
+						for (const comp of component.components[i]
+							.components as Record<string, unknown>[]) {
+							if (comp === this.component) {
+								return i;
+							}
+						}
+					}
+				}
+
+				if (
+					component?.components?.indexOf(
+						this.component as unknown as any
+					) >= 0
+				) {
+					return component.components.indexOf(
+						this.component as unknown as any
+					);
+				}
+			}
+		}
+
+		return -1;
 	}
 }

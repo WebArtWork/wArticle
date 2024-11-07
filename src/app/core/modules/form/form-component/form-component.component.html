@@ -17,7 +17,9 @@
 	</div>
 </ng-container>
 
-<ng-container *ngIf="component.name && template">
+<ng-container
+	*ngIf="component.name && template && (!component.key || localKey && localSubmition)"
+>
 	<div class="form-container">
 		<ng-container
 			*ngTemplateOutlet="
@@ -27,7 +29,8 @@
 						field: field,
 						config: config,
 						component: component,
-						submition: submition,
+						key: localKey,
+						submition: localSubmition,
 						wSubmit: submit.bind(this),
 						wChange: change.bind(this),
 						wClick: click.bind(this)
