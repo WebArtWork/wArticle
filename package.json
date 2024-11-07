@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "ng serve -o --proxy-config proxy.conf.json",
-    "build": "ng build --configuration production && mv -f dist/app/browser/* dist/app/ && rm -rf dist/app/browser",
-    "gh": "mv docs/CNAME CNAME && ng build --configuration docs && mv -f docs/browser/* docs/ && rm -rf docs/browser && mv CNAME docs/CNAME"
+    "build": "ng build --configuration production"
   },
   "private": true,
   "dependencies": {
