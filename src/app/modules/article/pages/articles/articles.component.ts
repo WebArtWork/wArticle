@@ -13,7 +13,7 @@ import { Router } from "@angular/router";
 	styleUrls: ['./articles.component.scss']
 })
 export class ArticlesComponent {
-	columns = ['title', 'shortDescription', 'shortDescription', 'published', 'tags'];
+	columns = ['title', 'shortDescription', 'published', 'tags'];
 
 	tagId = this._router.url.includes('/articles/') ? this._router.url.replace('/articles/', '') : '';
 
