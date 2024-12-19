@@ -1,4 +1,6 @@
-@import 'angular';
+@use 'src/scss/utils/mixins' as mixins;
+@use 'src/scss/utils/media' as media;
+@use 'src/scss/utils/vars' as vars;
 
 /* =====================================
    General Input Styles

@@ -1,10 +1,13 @@
 <ng-template #templateRef let-data>
 	<ngx-file
-		(update)="data.control.setValue($event)"
+		[value]="data.submition[data.key]"
+		(update)="
+			data.submition[data.key] = $event;
+			data.wChange()
+		"
 		[label]="data.field.Label"
 		[width]="data.field.Width"
 		[height]="data.field.Height"
-		[value]="data.value"
 		[isPhoto]="true"
 	></ngx-file>
 </ng-template>

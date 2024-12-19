@@ -16,8 +16,9 @@ interface TranslateAll {
 }
 
 @Component({
-	templateUrl: './translates.component.html',
-	styleUrls: ['./translates.component.scss']
+    templateUrl: './translates.component.html',
+    styleUrls: ['./translates.component.scss'],
+    standalone: false
 })
 export class TranslatesComponent {
 	columns = ['page', 'word', 'translation'];

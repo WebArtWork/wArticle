@@ -1,32 +1,20 @@
-import { inject, Injectable } from '@angular/core';
-import { HelperService } from "src/app/core/services/helper.service";
+import { Injectable } from '@angular/core';
+import { Article } from '../interfaces/article.interface';
 import {
 	AlertService,
 	CoreService,
 	HttpService,
 	StoreService,
-	CrudService,
-	CrudDocument
+	CrudService
 } from 'wacom';
 
-export interface Article extends CrudDocument {
-	title: string;
-	description: string;
-	shortDescription: string;
-	published: Date;
-	tags: string;
-}
-
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class ArticleService extends CrudService<Article> {
-	_helper = inject(HelperService)
+	articles: Article[] = this.getDocs();
 
-	articles: Article[] = [];
-
-	articlesByTagId: Record<string, Article[]> = {}
-	setarticlesByTagId = this._helper.createParentIdToChildrenIds<Article[]>(this.articlesByTagId, this.articles, 'tags')
+	articlesByTag: Record<string, Article[]> = {};
 
 	constructor(
 		_http: HttpService,
@@ -36,7 +24,7 @@ export class ArticleService extends CrudService<Article> {
 	) {
 		super(
 			{
-				name: 'article'
+				name: 'article',
 			},
 			_http,
 			_store,
@@ -44,25 +32,8 @@ export class ArticleService extends CrudService<Article> {
 			_core
 		);
 
-		this.get().subscribe((articles: Article[]) => {
-			this.articles.push(...articles)
+		this.get();
 
-			this.setarticlesByTagId()
-		});
-
-		_core.on('article_create').subscribe((article: Article) => {
-			this.articles.push(article);
-
-			this.setarticlesByTagId()
-		});
-
-		_core.on('article_delete').subscribe((article: Article) => {
-			this.articles.splice(
-				this.articles.findIndex((o) => o._id === article._id),
-				1
-			);
-
-			this.setarticlesByTagId()
-		});
+		this.filteredDocuments(this.articlesByTag, 'tags');
 	}
 }

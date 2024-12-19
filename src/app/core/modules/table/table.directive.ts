@@ -7,7 +7,8 @@ import { Directive, TemplateRef, Input } from '@angular/core';
  * The `cell` input property is used to identify which column the template corresponds to.
  */
 @Directive({
-	selector: 'ng-template[cell]'
+    selector: 'ng-template[cell]',
+    standalone: false
 })
 export class CellDirective {
 	@Input() cell: any;
@@ -22,7 +23,8 @@ export class CellDirective {
  * The `cell` input property corresponds to the column that should be sortable.
  */
 @Directive({
-	selector: 'ng-template[sort]'
+    selector: 'ng-template[sort]',
+    standalone: false
 })
 export class SortDirective {
 	@Input() cell: any;
@@ -37,7 +39,8 @@ export class SortDirective {
  * This can include buttons or links for editing, deleting, or performing other actions on a row.
  */
 @Directive({
-	selector: 'ng-template[actions]'
+    selector: 'ng-template[actions]',
+    standalone: false
 })
 export class ActionsDirective {
 	constructor(public template: TemplateRef<any>) {}
@@ -50,7 +53,8 @@ export class ActionsDirective {
  * This directive enables the flexibility to design your own form layout and functionality.
  */
 @Directive({
-	selector: 'ng-template[customEdit]'
+    selector: 'ng-template[customEdit]',
+    standalone: false
 })
 export class CustomEditDirective {
 	constructor(public template: TemplateRef<any>) {}

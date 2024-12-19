@@ -25,6 +25,10 @@ export interface FormModalButton {
 	class?: string;
 }
 
+interface Docs {
+	docs: string;
+}
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -257,6 +261,7 @@ export class FormService {
 				...modalOptions,
 				component: ModalFormComponent,
 				class: 'forms_modal',
+				size: 'big',
 				form,
 				buttons: Array.isArray(buttons) ? buttons : [buttons],
 				submition,
@@ -270,6 +275,51 @@ export class FormService {
 					if (typeof change === 'function') {
 						change(update);
 					}
+				}
+			});
+		});
+	}
+
+	/** Shows a modal form with docs in ace editor */
+	modalDocs<T>(docs: T[]): Promise<T[]> {
+		return new Promise((resolve) => {
+			const submition = {
+				docs: JSON.stringify(docs.length ? docs : [], null, 4)
+			};
+
+			this._modal.show({
+				component: ModalFormComponent,
+				class: 'forms_modal',
+				size: 'big',
+				submition,
+				form: {
+					title: 'Modify content of documents',
+					components: [
+						{
+							name: 'Code',
+							key: 'docs',
+							fields: [
+								{
+									name: 'Placeholder',
+									value: 'fill content of documents'
+								}
+							]
+						}
+					]
+				},
+				onClose: function () {
+					const docs: T[] = submition.docs
+						? JSON.parse(submition.docs)
+						: [];
+
+					resolve(docs);
+				},
+				submit: () => {
+					const docs: T[] = submition.docs
+						? JSON.parse(submition.docs)
+						: [];
+
+					resolve(docs);
 				}
 			});
 		});

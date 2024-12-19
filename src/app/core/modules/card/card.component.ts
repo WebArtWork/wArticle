@@ -6,9 +6,10 @@ import { Component, Input, AfterContentInit, ContentChild, ElementRef } from '@a
  * It supports a flexible layout with optional header and footer sections.
  */
 @Component({
-	selector: 'wcard',
-	templateUrl: './card.component.html',
-	styleUrls: ['./card.component.scss']
+    selector: 'wcard',
+    templateUrl: './card.component.html',
+    styleUrls: ['./card.component.scss'],
+    standalone: false
 })
 export class CardComponent implements AfterContentInit {
 	/**

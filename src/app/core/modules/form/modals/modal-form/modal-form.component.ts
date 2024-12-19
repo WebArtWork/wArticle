@@ -5,7 +5,8 @@ import { CoreService } from 'wacom';
 
 @Component({
 	templateUrl: './modal-form.component.html',
-	styleUrls: ['./modal-form.component.scss']
+	styleUrls: ['./modal-form.component.scss'],
+	standalone: false
 })
 export class ModalFormComponent {
 	form: FormInterface;

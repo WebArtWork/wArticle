@@ -3,24 +3,20 @@ import { CoreModule } from 'src/app/core/core.module';
 import { ArticlesComponent } from './articles.component';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [{
-	path: '',
-	component: ArticlesComponent
-}, {
-	path: ':article',
-	component: ArticlesComponent
-}];
+const routes: Routes = [
+	{
+		path: '',
+		component: ArticlesComponent
+	},
+	{
+		path: ':tag',
+		component: ArticlesComponent
+	}
+];
 
 @NgModule({
-	imports: [
-		RouterModule.forChild(routes),
-		CoreModule
-	],
-	declarations: [
-		ArticlesComponent
-	],
+	imports: [RouterModule.forChild(routes), CoreModule],
+	declarations: [ArticlesComponent],
 	providers: []
-
 })
-
-export class ArticlesModule { }
+export class ArticlesModule {}

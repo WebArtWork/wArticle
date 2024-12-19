@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HttpService, ModalService } from 'wacom';
 import { FileService } from './file.service';
 import { FileCropperComponent } from './file-cropper/file-cropper.component';
+import { environment } from 'src/environments/environment';
 
 /**
  * The FileComponent is responsible for handling file uploads, primarily images,
@@ -9,11 +10,14 @@ import { FileCropperComponent } from './file-cropper/file-cropper.component';
  * multiple file uploads.
  */
 @Component({
-	selector: 'ngx-file',
-	templateUrl: './file.component.html',
-	styleUrls: ['./file.component.scss']
+    selector: 'ngx-file',
+    templateUrl: './file.component.html',
+    styleUrls: ['./file.component.scss'],
+    standalone: false
 })
 export class FileComponent implements OnInit {
+	readonly url = environment.url;
+
 	/**
 	 * The container where the file will be stored (default: 'general').
 	 */

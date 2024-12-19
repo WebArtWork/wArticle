@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
-	selector: 'app-file-cropper',
-	templateUrl: './file-cropper.component.html',
-	styleUrl: './file-cropper.component.scss'
+    selector: 'app-file-cropper',
+    templateUrl: './file-cropper.component.html',
+    styleUrl: './file-cropper.component.scss',
+    standalone: false
 })
 export class FileCropperComponent {
 	close: () => void;
