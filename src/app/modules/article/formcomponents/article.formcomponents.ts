@@ -4,16 +4,16 @@ export const articleFormComponents = {
 	components: [
 		{
 			name: 'Text',
-			key: 'name',
+			key: 'title',
 			focused: true,
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill article title',
+					value: 'fill article title'
 				},
 				{
 					name: 'Label',
-					value: 'Title',
+					value: 'Title'
 				}
 			]
 		},
@@ -23,7 +23,7 @@ export const articleFormComponents = {
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill article link',
+					value: 'fill article link'
 				},
 				{
 					name: 'Label',
@@ -37,11 +37,11 @@ export const articleFormComponents = {
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill article video',
+					value: 'fill article video'
 				},
 				{
 					name: 'Label',
-					value: 'Video',
+					value: 'Video'
 				}
 			]
 		},
@@ -116,4 +116,4 @@ export const articleFormComponents = {
 			]
 		}
 	]
-}
+};
