@@ -14,7 +14,8 @@ interface ChangePassword {
 @Component({
 	selector: 'app-profile',
 	templateUrl: './profile.component.html',
-	styleUrls: ['./profile.component.scss']
+	styleUrls: ['./profile.component.scss'],
+	standalone: false
 })
 export class ProfileComponent {
 	readonly url = environment.url;
@@ -90,8 +91,8 @@ export class ProfileComponent {
 
 	user: Record<string, unknown>;
 
-	update(submition: User): void {
-		this._core.copy(submition, this.us.user);
+	update(): void {
+		this._core.copy(this.user, this.us.user);
 
 		this.us.updateMe();
 	}

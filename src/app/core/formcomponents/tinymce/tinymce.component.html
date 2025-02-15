@@ -1,8 +1,0 @@
-<ng-template #templateRef let-data>
-	<tinymce
-		[config]="editorOptions"
-		[(ngModel)]="data.submition[data.component.key]"
-		(ngModelChange)="data.wChange()"
-		[ngClass]="data.component.class">
-	</tinymce>
-</ng-template>

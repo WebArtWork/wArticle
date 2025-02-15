@@ -1,4 +1,4 @@
 // =====  ONLY FOR ANGULAR COMPONENTS =====
-@import 'vars';
-@import 'media';
-@import 'mixins';
+@use 'vars' as vars;
+@use 'media' as media;
+@use 'mixins' as mixins;

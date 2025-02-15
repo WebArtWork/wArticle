@@ -7,10 +7,6 @@ const routes: Routes = [
 	{
 		path: '',
 		component: ArticlesComponent
-	},
-	{
-		path: ':tag',
-		component: ArticlesComponent
 	}
 ];
 

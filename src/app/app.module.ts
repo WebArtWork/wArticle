@@ -1,22 +1,18 @@
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Renderer2 } from '@angular/core';
+import { NgModule } from '@angular/core';
 // Core
 import { GuestComponent } from './core/theme/guest/guest.component';
 import { UserComponent } from './core/theme/user/user.component';
 import { AppComponent } from './app.component';
 import { CoreModule } from 'src/app/core/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
 // config
 import { WacomModule, MetaGuard } from 'wacom';
 import { environment } from 'src/environments/environment';
 import { AuthenticatedGuard } from './core/guards/authenticated.guard';
 import { GuestGuard } from './core/guards/guest.guard';
 import { AdminsGuard } from './core/guards/admins.guard';
-import { AlertModule } from './core/modules/alert/alert.module';
-import { ModalModule } from './core/modules/modal/modal.module';
-import { NgxTinymceModule } from 'ngx-tinymce';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 const routes: Routes = [
@@ -31,6 +27,19 @@ const routes: Routes = [
 		component: GuestComponent,
 		children: [
 			/* guest */
+			{
+				path: 'document',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Document'
+					}
+				},
+				loadChildren: () =>
+					import('./pages/guest/document/document.module').then(
+						(m) => m.DocumentModule
+					)
+			},
 			{
 				path: 'components',
 				canActivate: [MetaGuard],
@@ -66,27 +75,30 @@ const routes: Routes = [
 		children: [
 			/* user */
 			{
-				path: 'articles',
+				path: 'tags',
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'Articles'
-					}
-				},
-				loadChildren: () => import('./modules/article/pages/articles/articles.module').then(m => m.ArticlesModule)
-			}, 
-			{
-				path: 'profile',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'My Profile'
+						title: 'Tags'
 					}
 				},
 				loadChildren: () =>
-					import('./pages/user/profile/profile.module').then(
-						(m) => m.ProfileModule
+					import('./modules/article/pages/tags/tags.module').then(
+						(m) => m.TagsModule
 					)
+			},
+			{
+				path: 'comments',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Comments'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/article/pages/comments/comments.module'
+					).then((m) => m.CommentsModule)
 			},
 			{
 				path: 'articles',
@@ -102,30 +114,17 @@ const routes: Routes = [
 					).then((m) => m.ArticlesModule)
 			},
 			{
-				path: 'tags',
+				path: 'profile',
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'Tags'
+						title: 'My Profile'
 					}
 				},
 				loadChildren: () =>
-					import(
-						'./modules/articletag/pages/tags/tags.module'
-					).then((m) => m.TagsModule)
-			},
-			{
-				path: 'comments',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Comments'
-					}
-				},
-				loadChildren: () =>
-					import(
-						'./modules/articlecomment/pages/comments/comments.module'
-					).then((m) => m.CommentsModule)
+					import('./pages/user/profile/profile.module').then(
+						(m) => m.ProfileModule
+					)
 			}
 		]
 	},
@@ -186,11 +185,8 @@ const routes: Routes = [
 @NgModule({
 	declarations: [AppComponent, GuestComponent, UserComponent],
 	imports: [
-		AlertModule,
-		ModalModule,
 		CoreModule,
 		BrowserModule,
-		ReactiveFormsModule,
 		BrowserAnimationsModule,
 		WacomModule.forRoot({
 			store: {},
@@ -201,33 +197,45 @@ const routes: Routes = [
 			meta: {
 				useTitleSuffix: true,
 				defaults: {
-					title: 'Web Art Work',
-					titleSuffix: ' | Web Art Work',
-					'og:image': 'https://webart.work/api/user/cdn/waw-logo.png'
+					title: environment.meta.title,
+					favicon: environment.meta.favicon,
+					description: environment.meta.description,
+					titleSuffix: ' | ' + environment.meta.title,
+					'og:image': environment.meta.image
 				}
 			},
 			modal: {
 				modals: {
 					/* modals */
 				}
+			},
+			alert: {
+				alerts: {
+					/* alerts */
+				}
+			},
+			loader: {
+				loaders: {
+					/* loaders */
+				}
+			},
+			popup: {
+				popups: {
+					/* popups */
+				}
 			}
 		}),
 		RouterModule.forRoot(routes, {
 			scrollPositionRestoration: 'enabled',
 			preloadingStrategy: PreloadAllModules
-		}),
-		NgxTinymceModule.forRoot({
-			baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/'
 		})
 	],
 	providers: [
+		/* providers */
+		{ provide: LocationStrategy, useClass: HashLocationStrategy },
 		AuthenticatedGuard,
 		GuestGuard,
-		AdminsGuard,
-		{
-			provide: LocationStrategy,
-			useClass: HashLocationStrategy
-		}
+		AdminsGuard
 	],
 	bootstrap: [AppComponent]
 })

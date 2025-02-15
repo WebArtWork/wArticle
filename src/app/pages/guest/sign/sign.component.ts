@@ -1,29 +1,26 @@
 import { Component } from '@angular/core';
-import { HashService, HttpService, UiService } from 'wacom';
-import { AlertService } from 'src/app/core/modules/alert/alert.service';
+import { AlertService, HashService, HttpService, UiService } from 'wacom';
 import { Router } from '@angular/router';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
+import { environment } from 'src/environments/environment';
 
 interface RespStatus {
 	email: string;
 	pass: string;
 }
 
-interface Form {
-	email: string;
-	password: string;
-	code: string;
-}
-
 @Component({
 	templateUrl: './sign.component.html',
-	styleUrls: ['./sign.component.scss']
+	styleUrls: ['./sign.component.scss'],
+	standalone: false
 })
 export class SignComponent {
+	readonly logo = environment.sign.logo;
+
 	form: FormInterface = this._form.getForm('sign', {
 		formId: 'sign',
 		title: 'Sign In / Sign Up',
@@ -60,8 +57,8 @@ export class SignComponent {
 				]
 			},
 			{
-				name: 'Text',
-				key: 'code',
+				name: 'Number',
+				key: 'resetPin',
 				fields: [
 					{
 						name: 'Placeholder',
@@ -97,13 +94,13 @@ export class SignComponent {
 	});
 
 	user = {
-		email: 'ceo@webart.work',
-		password: 'asdasdasdasd',
-		code: ''
+		email: environment.sign.email,
+		password: environment.sign.password,
+		resetPin: null
 	};
 
 	constructor(
-		public us: UserService,
+		public userService: UserService,
 		public ui: UiService,
 		private _alert: AlertService,
 		private _http: HttpService,
@@ -114,7 +111,7 @@ export class SignComponent {
 	) {}
 
 	submit(): void {
-		if (!this.form.components[2].hidden && this.user.code) {
+		if (!this.form.components[2].hidden && this.user.resetPin) {
 			this.save();
 		} else if (!this.user.email) {
 			this._alert.error({
@@ -168,32 +165,34 @@ export class SignComponent {
 	}
 
 	save(): void {
-		// this._http.post('/api/user/change', this.user, (resp: boolean) => {
-		// 	if (resp) {
-		// 		this._alert.info({
-		// 			text: 'Password successfully changed'
-		// 		});
-		// 	} else {
-		// 		this._alert.error({
-		// 			text: 'Wrong Code'
-		// 		});
-		// 	}
-		// 	this.login();
-		// });
+		this._http.post('/api/user/change', this.user, (resp: boolean) => {
+			if (resp) {
+				this._alert.info({
+					text: 'Password successfully changed'
+				});
+			} else {
+				this._alert.error({
+					text: 'Wrong Code'
+				});
+			}
+
+			this.login();
+		});
 	}
 
 	private _set = (user: User): void => {
 		if (user) {
+			const token = (user as unknown as { token: string }).token || '';
+
+			if (token) {
+				this._http.set('token', token);
+			}
+
 			localStorage.setItem('waw_user', JSON.stringify(user));
 
-			this._http.set(
-				'token',
-				(user as unknown as { token: string }).token
-			);
+			this.userService.setUser(user);
 
-			this.us.setUser(user);
-
-			this.us.get();
+			this.userService.get();
 
 			this._router.navigateByUrl('/profile');
 		} else {

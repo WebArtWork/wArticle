@@ -1,6 +1,6 @@
-@import 'angular';
-@import '/src/scss/utils/vars';
-
+@use 'src/scss/utils/mixins' as mixins;
+@use 'src/scss/utils/media' as media;
+@use 'src/scss/utils/vars' as vars;
 :host {
 	width: 100%;
 
@@ -23,16 +23,16 @@
 		top: 20px;
 		position: absolute;
 		right: 30px;
-		@include text-default(0, 23px, 500, 20px, var(--c-text-primary));
-		@include flexBox(flex, null, space-between, center, null);
-		border-radius: $b-radius;
+		@include mixins.text-default(0, 23px, 500, 20px, var(--c-text-primary));
+		@include mixins.flexBox(flex, null, space-between, center, null);
+		border-radius: 12px;
 	}
 
 	&__footer {
 		margin-top: 20px;
-		@include flexBox(flex, null, space-between, center, wrap);
+		@include mixins.flexBox(flex, null, space-between, center, wrap);
 
-		@include bp-max(sm) {
+		@include media.bp-max(sm) {
 			flex-direction: column;
 			align-items: center;
 
@@ -46,7 +46,7 @@
 	&__logout {
 		.w-btn {
 			margin: 0;
-			@include flexBox(flex, null, space-between, center, null);
+			@include mixins.flexBox(flex, null, space-between, center, null);
 		}
 
 		.material-icons {
@@ -62,7 +62,7 @@
 
 /*  AVATAR PHOTO STYLE  */
 .avatar {
-	border-radius: $b-radius-img;
+	border-radius: vars.$b-radius-img;
 	border: 1px solid var(--c-border);
 	position: relative;
 	margin: 0 auto;
@@ -77,7 +77,7 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		border-radius: $b-radius-img;
+		border-radius: vars.$b-radius-img;
 	}
 
 	&__upload {
@@ -87,15 +87,15 @@
 		bottom: 0px;
 		width: 24px;
 		height: 24px;
-		border-radius: $b-radius-img;
+		border-radius: vars.$b-radius-img;
 		background: var(--c-primary);
-		@include flexBox(flex, null, center, center, null);
-		transition: $transition;
+		@include mixins.flexBox(flex, null, center, center, null);
+		transition: vars.$transition;
 	}
 
 	&__icon {
-		color: $c-white;
-		font-size: $fs;
+		color: vars.$c-white;
+		font-size: vars.$fs;
 	}
 }
 

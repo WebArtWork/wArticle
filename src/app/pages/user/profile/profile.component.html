@@ -5,7 +5,7 @@
 				<div class="avatar _profile">
 					<ngx-file
 						(update)="updateThumb($event)"
-						[value]="us.user.thumb ? url + us.user.thumb : 'assets/default.png'"
+						[value]="us.thumb"
 						[name]="us.user._id + '.jpg'"
 						err="assets/default.png"
 						[isPhoto]="true"
@@ -23,8 +23,8 @@
 		</div>
 		<div class="profile__body">
 			<wform
-				(wChange)="update($event)"
 				[config]="formProfile"
+				(wChange)="update()"
 				[submition]="user"
 				*ngIf="user"
 			></wform>

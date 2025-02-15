@@ -4,9 +4,10 @@ import { FileModule } from 'src/app/core/modules/file/file.module';
 import { FormService } from 'src/app/core/modules/form/form.service';
 import { SelectModule } from 'src/app/core/modules/select/select.module';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 /* componnets */
+import { CodeComponent } from './code/code.component';
+import { HtmlComponent } from './html/html.component';
 import { EmailComponent } from './email/email.component';
 import { NumberComponent } from './number/number.component';
 import { TimeComponent } from './time/time.component';
@@ -19,8 +20,17 @@ import { PasswordComponent } from './password/password.component';
 import { SelectComponent } from './select/select.component';
 import { BooleanComponent } from './boolean/boolean.component';
 import { TagsComponent } from './tags/tags.component';
-import { TinyMCEComponent } from './tinymce/tinymce.component';
+import { ACE_CONFIG, AceConfigInterface, AceModule } from 'ngx-ace-wrapper';
 import { NgxTinymceModule } from 'ngx-tinymce';
+import { FormsModule } from '@angular/forms';
+
+const DEFAULT_ACE_CONFIG: AceConfigInterface = {
+	maxLines: Infinity,
+	theme: 'monokai',
+	mode: 'json',
+	minLines: 10,
+	tabSize: 4
+};
 
 @NgModule({
 	imports: [
@@ -29,11 +39,16 @@ import { NgxTinymceModule } from 'ngx-tinymce';
 		CommonModule,
 		FileModule,
 		SelectModule,
+		AceModule,
 		FormsModule,
-		NgxTinymceModule
+		NgxTinymceModule.forRoot({
+			baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/5.7.1/'
+		})
 	],
 	declarations: [
 		/* declarations */
+		CodeComponent,
+		HtmlComponent,
 		EmailComponent,
 		NumberComponent,
 		TimeComponent,
@@ -45,29 +60,45 @@ import { NgxTinymceModule } from 'ngx-tinymce';
 		TextComponent,
 		ButtonComponent,
 		BooleanComponent,
-		TagsComponent,
-		TinyMCEComponent
+		TagsComponent
+	],
+	providers: [
+		{
+			provide: ACE_CONFIG,
+			useValue: DEFAULT_ACE_CONFIG
+		}
 	]
 })
 export class FormcomponentsModule {
 	constructor(private _form: FormService) {
 		/* addComponents */
-		this._form.injectComponent<BooleanComponent>("Boolean", BooleanComponent, [
+		this._form.injectComponent<CodeComponent>('Code', CodeComponent);
+
+		this._form.injectComponent<HtmlComponent>('Html', HtmlComponent);
+
+		this._form.injectComponent<BooleanComponent>(
+			'Boolean',
+			BooleanComponent,
+			['Label']
+		);
+
+		this._form.injectComponent<ButtonComponent>('Button', ButtonComponent, [
 			'Label'
 		]);
 
-		this._form.injectComponent<ButtonComponent>("Button", ButtonComponent, ['Label']);
+		this._form.injectComponent<DateComponent>('Date', DateComponent);
 
-		this._form.injectComponent<DateComponent>("Date", DateComponent);
+		this._form.injectComponent<EmailComponent>('Email', EmailComponent);
 
-		this._form.injectComponent<EmailComponent>("Email", EmailComponent);
+		this._form.injectComponent<NumberComponent>('Number', NumberComponent);
 
-		this._form.injectComponent<NumberComponent>("Number", NumberComponent);
-
-		this._form.injectComponent<PasswordComponent>("Password", PasswordComponent);
+		this._form.injectComponent<PasswordComponent>(
+			'Password',
+			PasswordComponent
+		);
 
 		this._form.injectComponent<PhotoComponent>(
-			"Photo",
+			'Photo',
 			PhotoComponent,
 			['Label', 'Width', 'Height'],
 			{
@@ -77,7 +108,7 @@ export class FormcomponentsModule {
 		);
 
 		this._form.injectComponent<PhotosComponent>(
-			"Photos",
+			'Photos',
 			PhotosComponent,
 			['Label', 'Width', 'Height'],
 			{
@@ -87,7 +118,7 @@ export class FormcomponentsModule {
 		);
 
 		this._form.injectComponent<SelectComponent>(
-			"Select",
+			'Select',
 			SelectComponent,
 			['Placeholder', 'Label', 'Items', 'Multiple'],
 			{
@@ -96,21 +127,19 @@ export class FormcomponentsModule {
 			}
 		);
 
-		this._form.injectComponent<TagsComponent>("Tags", TagsComponent, [
+		this._form.injectComponent<TagsComponent>('Tags', TagsComponent, [
 			'Button',
 			'Placeholder',
 			'Label'
 		]);
 
 		this._form.injectComponent<TextComponent>(
-			"Text",
+			'Text',
 			TextComponent,
 			['Textarea', 'Placeholder', 'Label'],
 			{ Textarea: 'Boolean' }
 		);
 
-		this._form.injectComponent<TimeComponent>("Time", TimeComponent);
-
-		this._form.injectComponent<TinyMCEComponent>("TinyMCE", TinyMCEComponent);
+		this._form.injectComponent<TimeComponent>('Time', TimeComponent);
 	}
 }

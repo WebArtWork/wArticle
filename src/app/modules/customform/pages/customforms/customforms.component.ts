@@ -11,7 +11,8 @@ import { FormComponentInterface } from 'src/app/core/modules/form/interfaces/com
 
 @Component({
 	templateUrl: './customforms.component.html',
-	styleUrls: ['./customforms.component.scss']
+	styleUrls: ['./customforms.component.scss'],
+	standalone: false
 })
 export class CustomformsComponent {
 	columns = ['formId', 'components', 'active'];

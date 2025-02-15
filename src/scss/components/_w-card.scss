@@ -1,10 +1,6 @@
-@import '/src/scss/utils/vars';
-  
-
-@import 'angular';
-
-
-
+@use 'src/scss/utils/mixins' as mixins;
+@use 'src/scss/utils/media' as media;
+@use 'src/scss/utils/vars' as vars;
 
 .w-card {
 	display: flex;

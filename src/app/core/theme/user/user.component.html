@@ -44,10 +44,9 @@
 					routerLink="/profile"
 				>
 					<img
-						[src]="forceAvatarUrl || us.user.thumb ? url + us.user.thumb : 'assets/default.png'"
-						(error)="forceAvatarUrl = 'assets/default.png'"
 						alt="Profile Picture"
 						class="avatar__img"
+						[src]="us.thumb"
 						height="50"
 						width="50"
 					/>
@@ -118,6 +117,7 @@
 					<span class="material-icons">comment</span>
 					<span translate>Theme.Comments</span>
 				</a>
+				<hr />
 			</div>
 		</div>
 		<router-outlet></router-outlet>

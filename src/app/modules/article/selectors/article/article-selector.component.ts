@@ -4,7 +4,7 @@ import {
 	Component,
 	OnChanges,
 	Output,
-	Input
+	Input,
 } from '@angular/core';
 import { SelectModule } from 'src/app/core/modules/select/select.module';
 import { ArticleService } from '../../services/article.service';
@@ -14,9 +14,9 @@ import { Article } from '../../interfaces/article.interface';
 	selector: 'article-selector',
 	templateUrl: './article-selector.component.html',
 	styleUrls: ['./article-selector.component.scss'],
-	imports: [SelectModule]
+	imports: [SelectModule],
 })
-export class SelectUserComponent implements OnChanges {
+export class ArticleSelectorComponent implements OnChanges {
 	@Input() value: string;
 
 	@Output() wChange = new EventEmitter();

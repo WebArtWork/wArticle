@@ -14,6 +14,15 @@ import { environment } from 'src/environments/environment';
 	providedIn: 'root'
 })
 export class UserService extends CrudService<User> {
+	readonly url = environment.url;
+
+	get thumb(): string {
+		return !this.user.thumb ||
+			this.user.thumb.includes('assets/default.png')
+			? 'assets/default.png'
+			: this.url + this.user.thumb;
+	}
+
 	roles = (
 		(environment as unknown as { roles: string[] }).roles || []
 	).concat(['admin']);
@@ -29,37 +38,34 @@ export class UserService extends CrudService<User> {
 		: this.new();
 
 	constructor(
-		_http: HttpService,
-		_store: StoreService,
-		_alert: AlertService,
-		_core: CoreService,
+		private _http: HttpService,
+		private _store: StoreService,
+		private _alert: AlertService,
+		private _core: CoreService,
 		private _router: Router
 	) {
-		super(
-			{
-				name: 'user'
-			},
-			_http,
-			_store,
-			_alert,
-			_core
-		);
+		super({
+			name: 'user'
+		});
 
-		this.store = _store;
+		this.fetch({}, { name: 'me' }).subscribe((user) => {
+			if (user) {
+				if (
+					!localStorage.getItem('waw_user') &&
+					this._router.url === '/sign'
+				) {
+					this._router.navigateByUrl('/profile');
+				}
 
-		this.http = _http;
+				this.setUser(user);
 
-		this.alert = _alert;
+				this.get();
+			} else if (localStorage.getItem('waw_user')) {
+				this.logout();
+			}
+		});
 
-		this.core = _core;
-
-		if (this.http.header('token')) {
-			this.fetch({}, { name: 'me' }).subscribe(this.setUser.bind(this));
-
-			this.get();
-		}
-
-		this.store.get('mode', (mode) => {
+		this._store.get('mode', (mode) => {
 			if (mode) {
 				this.setMode(mode);
 			}
@@ -68,11 +74,11 @@ export class UserService extends CrudService<User> {
 
 	setMode(mode = ''): void {
 		if (mode) {
-			this.store.set('mode', mode);
+			this._store.set('mode', mode);
 
 			(document.body.parentNode as HTMLElement).classList.add(mode);
 		} else {
-			this.store.remove('mode');
+			this._store.remove('mode');
 
 			(document.body.parentNode as HTMLElement).classList.remove('dark');
 		}
@@ -85,7 +91,7 @@ export class UserService extends CrudService<User> {
 
 		localStorage.setItem('waw_user', JSON.stringify(user));
 
-		this.core.complete('us.user');
+		this._core.complete('us.user');
 	}
 
 	role(role: string): boolean {
@@ -109,7 +115,7 @@ export class UserService extends CrudService<User> {
 
 		this._changingPassword = true;
 
-		this.http.post(
+		this._http.post(
 			'/api/user/changePassword',
 			{
 				newPass: newPass,
@@ -119,11 +125,11 @@ export class UserService extends CrudService<User> {
 				this._changingPassword = false;
 
 				if (resp) {
-					this.alert.info({
+					this._alert.info({
 						text: 'Successfully changed password'
 					});
 				} else {
-					this.alert.error({
+					this._alert.error({
 						text: 'Incorrect current password'
 					});
 				}
@@ -136,9 +142,11 @@ export class UserService extends CrudService<User> {
 
 		localStorage.removeItem('waw_user');
 
-		this._router.navigateByUrl('/sign');
+		this._http.remove('token');
 
-		this.http.remove('token');
+		this._http.get('/api/user/logout');
+
+		this._router.navigateByUrl('/sign');
 
 		setTimeout(() => {
 			location.reload();
@@ -158,12 +166,4 @@ export class UserService extends CrudService<User> {
 	}
 
 	private _changingPassword = false;
-
-	private http: HttpService;
-
-	private store: StoreService;
-
-	private alert: AlertService;
-
-	private core: CoreService;
 }
