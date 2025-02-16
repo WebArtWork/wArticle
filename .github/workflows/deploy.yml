@@ -40,32 +40,13 @@ jobs:
         run: |
           npm run build
           cd dist/app/browser
-          echo "wcommerce.webart.work" > CNAME
+          echo "warticle.webart.work" > CNAME
           git init
           git add --all .
           git commit -m "Deploy to GitHub Pages"
           git checkout -B gh-pages
           git push git@github.com:${{ github.repository }} gh-pages --force
           cd ../../..
-
-      - name: Prepare pobhub gh-pages
-        env:
-          GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
-        run: |
-          npm run build:podhub
-          cd dist/app/browser
-          echo "admin.podhubvape.shop" > CNAME
-          rm -rf .git
-          sed -i 's|wCommerce|PodHub \| Vape shop - вейпи, PODіки, картриджі, рідини та більше|' index.html
-          sed -i 's|https://wcommerce.webart.work/assets/logo.png|https://admin.podhubvape.shop/assets/podhub/beef.svg|' index.html
-          sed -i 's|assets/favicon.ico|assets/podhub/favicon.jpg|' index.html
-          sed -i 's|WCommerce is a powerful and flexible platform designed to help businesses create stunning web and mobile storefronts with ease. Whether you are a small startup or an established enterprise, WCommerce provides everything you need to launch, manage, and grow your online store.|Ласкаво просимо до PodHub, вашого надійного магазину для всіх потреб у вейпах та одноразках. Ми пропонуємо широкий вибір вейпів, одноразок, pods, картриджів та жижок найвищої якості. У PodHub ви знайдете все необхідне для задоволення ваших вейпінгових потреб. Ми гарантуємо якість, доступні ціни та швидку доставку по всій Україні Новою поштою.|' index.html
-          git init
-          git add --all .
-          git commit -m "Deploy podhub build"
-          git checkout -B master  # Adjust the branch if needed
-          git remote add origin git@github.com:WebArtWork/admin.podhubvape.shop.git
-          git push origin master --force
 
       # Cleanup SSH
       - name: Clean up SSH
